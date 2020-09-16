@@ -7221,8 +7221,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4__);
 
 
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n                mutation($id: ID!){\n                    deleteTask(id: $id){\n                        name\n                    }\n                }"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n                mutation($id: ID!,\n                    $name: String!,\n                    $task: String!,\n                    $delivery_date: Date!,\n                    $user_id: ID!){\n                    updateTask(id: $id,content: {\n                        name: $name,\n                        task: $task,\n                        delivery_date: $delivery_date,\n                        user_id: $user_id\n                    }){\n                        id,\n                        name\n                    }\n                }"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n            mutation($name: String!,\n                $task: String!,\n                $delivery_date: Date!,\n                $user_id: ID!){\n                createTask(input: {\n                    name: $name,\n                    task: $task,\n                    delivery_date: $delivery_date,\n                    user_id: $user_id\n                }){\n                    name\n                }\n            }"]);
+  var data = _taggedTemplateLiteral(["\n                mutation($name: String!,\n                    $task: String!,\n                    $delivery_date: Date!,\n                    $user_id: ID!){\n                    createTask(input: {\n                        name: $name,\n                        task: $task,\n                        delivery_date: $delivery_date,\n                        user_id: $user_id\n                    }){\n                        name\n                    }\n                }"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -7237,12 +7257,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -7336,6 +7350,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       idModal: 'taskModal',
       titleModal: 'Agregar Tarea',
+      id: null,
       taskObject: {
         name: "",
         task: "",
@@ -7371,7 +7386,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return _this.$apollo.query({
-                  query: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()("query($page: Int!){\n                    tasks(first:1,page:$page){\n                        paginatorInfo{\n                            count,\n                            currentPage,\n                            firstItem,\n                            hasMorePages,\n                            lastItem,\n                            lastPage,\n                            perPage,\n                            total\n                        },\n                        data{\n                            name,\n                            task,\n                            user{\n                                name\n                            }\n                        }\n                    }\n                }"),
+                  query: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()("query($page: Int!){\n                        tasks(first:5,page:$page){\n                            paginatorInfo{\n                                count,\n                                currentPage,\n                                firstItem,\n                                hasMorePages,\n                                lastItem,\n                                lastPage,\n                                perPage,\n                                total\n                            },\n                            data{\n                                id,\n                                name,\n                                task,\n                                delivery_date,\n                                user{\n                                    id,\n                                    name\n                                }\n                            }\n                        }\n                    }"),
                   variables: {
                     page: _this.pagination.currentPage ? parseInt(_this.pagination.currentPage) : 1
                   }
@@ -7401,7 +7416,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return _this2.$apollo.query({
-                  query: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()("{\n                    users{\n                        data{\n                            id,\n                            name,\n                        }\n                    }\n                }")
+                  query: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()("{\n                        users{\n                            data{\n                                id,\n                                name,\n                            }\n                        }\n                    }")
                 });
 
               case 2:
@@ -7416,7 +7431,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    saveTask: function saveTask() {
+    save: function save() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -7453,9 +7468,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 task = _context3.sent;
-                _this3.taskObject = Object.assign({}, _this3.emptyTaskObject);
 
-              case 4:
+              case 3:
               case "end":
                 return _context3.stop();
             }
@@ -7463,7 +7477,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    deleteTask: function deleteTask() {
+    edit: function edit(item) {
+      this.id = item.id;
+      this.taskObject.name = item.name;
+      this.taskObject.task = item.task;
+      this.taskObject.delivery_date = item.delivery_date;
+      this.taskObject.user_id = item.user.id;
+    },
+    saveTask: function saveTask() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
@@ -7471,32 +7492,129 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.$swal({
-                  title: 'Estas seguro que quieres eliminarlo?',
-                  text: "No podras revertir los cambios!",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Si, eliminar!'
-                }).then(function (result) {
-                  if (result.value) {
-                    _this4.deleteProduct();
+                if (_this4.id === null) {
+                  _this4.save();
+                } else {
+                  _this4.update();
+                }
 
-                    _this4.snackbar = true;
-                    _this4.text = 'Se elimino correctamente';
+                _context4.next = 3;
+                return _this4.getTasks();
 
-                    _this4.cancelar();
-                  }
-                });
+              case 3:
+                _this4.cancelar();
 
-              case 1:
+              case 4:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
       }))();
+    },
+    update: function update() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return _this5.$apollo.mutate({
+                  mutation: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()(_templateObject2()),
+                  variables: {
+                    id: _this5.id,
+                    name: _this5.taskObject.name,
+                    task: _this5.taskObject.task,
+                    delivery_date: _this5.taskObject.delivery_date,
+                    user_id: _this5.taskObject.user_id
+                  }
+                }).then(function (data) {
+                  _this5.$swal({
+                    icon: 'success',
+                    title: 'Tarea actualizada',
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                })["catch"](function (error) {
+                  _this5.$swal({
+                    icon: 'error',
+                    title: 'Hubo un error al actualizar la tarea',
+                    showConfirmButton: true
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    "delete": function _delete(item) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return _this6.$apollo.mutate({
+                  mutation: graphql_tag__WEBPACK_IMPORTED_MODULE_1___default()(_templateObject3()),
+                  variables: {
+                    id: item.id
+                  }
+                }).then(function (data) {
+                  _this6.getTasks();
+
+                  _this6.$swal({
+                    icon: 'success',
+                    title: 'Tarea eliminada',
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                })["catch"](function (error) {
+                  _this6.$swal({
+                    icon: 'error',
+                    title: 'Hubo un error al eliminar la tarea',
+                    showConfirmButton: true
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    deleteTask: function deleteTask(item) {
+      var _this7 = this;
+
+      this.$swal({
+        title: 'Estas seguro que quieres eliminarlo?',
+        text: "No podras revertir los cambios!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
+      }).then(function (result) {
+        if (result.value) {
+          _this7["delete"](item);
+
+          _this7.cancelar();
+        }
+      });
+      this.getTasks();
+    },
+    cancelar: function cancelar() {
+      this.id = null;
+      this.taskObject = Object.assign({}, this.emptyTaskObject);
     }
   },
   created: function created() {
@@ -56495,7 +56613,16 @@ var render = function() {
                               "button",
                               {
                                 staticClass: "btn btn-info text-white",
-                                attrs: { type: "button" }
+                                attrs: {
+                                  type: "button",
+                                  "data-toggle": "modal",
+                                  "data-target": "#" + _vm.idModal
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.edit(item)
+                                  }
+                                }
                               },
                               [_vm._v("Editar")]
                             ),
@@ -56504,7 +56631,12 @@ var render = function() {
                               "button",
                               {
                                 staticClass: "btn btn-danger text-white",
-                                attrs: { type: "button" }
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteTask(item)
+                                  }
+                                }
                               },
                               [_vm._v("Eliminar")]
                             )
